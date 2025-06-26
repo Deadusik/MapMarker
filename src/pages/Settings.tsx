@@ -1,11 +1,11 @@
 import { Box } from "@mui/material"
 
-const Error = () => {
+const Settings = () => {
     return (
         <Box>
-            <h1>Error</h1>
+            <h1>Settings</h1>
         </Box>
     )
 }
 
-export default Error
+export default Settings

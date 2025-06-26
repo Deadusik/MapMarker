@@ -1,8 +1,10 @@
 import type { ReactNode } from "react"
 // components
-import { MAP } from "./paths"
+import { ABOUT, MAP, SETTINGS } from "./paths"
 // paths
 import Map from '../pages/Map'
+import About from "../pages/About"
+import { Settings } from "@mui/icons-material"
 
 interface IRoute {
     path: string
@@ -13,5 +15,13 @@ export const publicRoutes: IRoute[] = [
     {
         path: MAP,
         element: <Map/>
-    }
+    },
+    {
+        path: ABOUT,
+        element: <About/>
+    },
+        {
+        path: SETTINGS,
+        element: <Settings/>
+    },
 ]
