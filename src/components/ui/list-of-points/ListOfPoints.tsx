@@ -1,21 +1,111 @@
-import { List, ListItem, Paper } from '@mui/material';
+import { Box, Card, List, ListItem, Paper } from '@mui/material';
 import PointItem from './PointItem';
+import { useState } from 'react';
+import type { Point } from '../../../models/Point';
 
-const items = Array.from({ length: 200 }, (_, i) => `Елемент ${i + 1}`);
+// DEV: test data !!!
+const points: Point[] = [
+  {
+    place_id: "1",
+    name: "Kyiv",
+    addresstype: "City",
+    lat: "50.4500336",
+    lon: "30.5241361"
+  },
+  {
+    place_id: "2",
+    name: "Kyiv",
+    addresstype: "City",
+    lat: "50.4500336",
+    lon: "30.5241361"
+  },
+  {
+    place_id: "3",
+    name: "Kyiv",
+    addresstype: "City",
+    lat: "50.4500336",
+    lon: "30.5241361"
+  },
+  {
+    place_id: "4",
+    name: "Kyiv",
+    addresstype: "City",
+    lat: "50.4500336",
+    lon: "30.5241361"
+  },
+  {
+    place_id: "5",
+    name: "Kyiv",
+    addresstype: "City",
+    lat: "50.4500336",
+    lon: "30.5241361"
+  },
+  {
+    place_id: "6",
+    name: "Kyiv",
+    addresstype: "City",
+    lat: "50.4500336",
+    lon: "30.5241361"
+  },
+  {
+    place_id: "7",
+    name: "Kyiv",
+    addresstype: "City",
+    lat: "50.4500336",
+    lon: "30.5241361"
+  },
+  {
+    place_id: "8",
+    name: "Kyiv",
+    addresstype: "City",
+    lat: "50.4500336",
+    lon: "30.5241361"
+  },
+  {
+    place_id: "9",
+    name: "Kyiv",
+    addresstype: "City",
+    lat: "50.4500336",
+    lon: "30.5241361"
+  },
+  {
+    place_id: "10",
+    name: "Kyiv",
+    addresstype: "City",
+    lat: "50.4500336",
+    lon: "30.5241361"
+  },
+]
 
 const ListOfPoints = () => {
+  const [activePoint, setActivePoint] = useState('')
+
+  const onPointClick = (place_id: string) => {
+    setActivePoint(place_id)
+  }
+
   return (
-    <Paper sx={{ overflowY: 'auto' }}>
-      <List>
-        {items.map((_, index) => (
-          <ListItem key={index} sx={{
-            padding: '0'
-          }} divider>
-            <PointItem />
-          </ListItem>
-        ))}
-      </List>
-    </Paper>
+    <Box sx={{
+      overflow: "auto"
+    }}>
+      { /* point list */}
+      <Card sx={{ padding: "1px" }}>
+        <Paper>
+          <List sx={{ padding: "0px" }}>
+            {points.map((point) => (
+              <ListItem key={point.place_id} sx={{
+                padding: '0'
+              }} divider>
+                <PointItem
+                  point={point}
+                  isActive={activePoint === point.place_id}
+                  onClick={onPointClick} />
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
+      </Card>
+    </Box>
   )
 }
 

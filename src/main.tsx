@@ -10,8 +10,20 @@ import { gray_light } from './utils/colors.ts'
 
 const theme = createTheme({
   palette: {
-    secondary: { main: gray_light }
+    secondary: {
+      main: gray_light,
+      light: '#fff'
+    },
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 768,
+      lg: 1200,
+      xl: 1536,
+    }
+  }
 })
 
 createRoot(document.getElementById('root')!).render(

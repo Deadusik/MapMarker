@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // components
 import { BottomNavigation, BottomNavigationAction, Container } from '@mui/material'
 // styles
@@ -9,12 +9,17 @@ import InfoIcon from '@mui/icons-material/Info';
 import SettingsIcon from '@mui/icons-material/Settings';
 // router
 import AppRouter from './router/AppRouter'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ABOUT, MAP, SETTINGS } from './router/paths';
 
 function App() {
   const navigate = useNavigate()
-  const [activePage, setActivePage] = useState('/')
+  const location = useLocation()
+  const [activePage, setActivePage] = useState(location.pathname)
+
+  useEffect(() => {
+    console.log(activePage)
+  }, [])
 
   return (
     <>
@@ -33,7 +38,8 @@ function App() {
             width: "100%",
             left: "50%",
             transform: "translateX(-50%)",
-            backgroundColor: "secondary.main"
+            backgroundColor: "secondary.main",
+            zIndex: 100
           }}
           showLabels
           onChange={(_, newPath) => {
