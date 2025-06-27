@@ -3,8 +3,8 @@ import type { ReactNode } from "react"
 import { ABOUT, MAP, SETTINGS } from "./paths"
 // paths
 import Map from '../pages/Map'
-import About from "../pages/About"
-import { Settings } from "@mui/icons-material"
+import About from '../pages/About'
+import Settings from '../pages/Settings'
 
 interface IRoute {
     path: string
@@ -14,14 +14,14 @@ interface IRoute {
 export const publicRoutes: IRoute[] = [
     {
         path: MAP,
-        element: <Map/>
+        element: <Map />
     },
     {
         path: ABOUT,
-        element: <About/>
+        element: <About />
     },
-        {
+    {
         path: SETTINGS,
-        element: <Settings/>
+        element: <Settings />
     },
 ]

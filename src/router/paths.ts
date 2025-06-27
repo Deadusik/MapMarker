@@ -1,3 +1,3 @@
 export const MAP = '/'
-export const ABOUT = 'ABOUT'
-export const SETTINGS = 'SETTINGS'
+export const ABOUT = 'about'
+export const SETTINGS = 'settings'
