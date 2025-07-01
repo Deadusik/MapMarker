@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 // components
 import { BottomNavigation, BottomNavigationAction, Container } from '@mui/material'
-// styles
-import './styles/App.css'
 // icons
 import MapIcon from '@mui/icons-material/Map';
 import InfoIcon from '@mui/icons-material/Info';
@@ -16,10 +14,6 @@ function App() {
   const navigate = useNavigate()
   const location = useLocation()
   const [activePage, setActivePage] = useState(location.pathname)
-
-  useEffect(() => {
-    console.log(activePage)
-  }, [])
 
   return (
     <>
