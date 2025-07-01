@@ -1,9 +1,14 @@
-import { Box } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 
 const Error = () => {
     return (
-        <Box>
-            <h1>Error</h1>
+        <Box sx={{
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+        }}>
+            <Typography variant="h2">Ooops... Something went wrong</Typography>
         </Box>
     )
 }

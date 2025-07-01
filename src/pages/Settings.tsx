@@ -35,6 +35,7 @@ const Settings = () => {
                         <Typography variant="h4" gutterBottom>
                             Settings
                         </Typography>
+                        { /* theme drop box */}
                         <Box>
                             <FormControl fullWidth>
                                 <InputLabel id="theme-select">Theme</InputLabel>
@@ -52,6 +53,7 @@ const Settings = () => {
                                 </Select>
                             </FormControl>
                         </Box>
+                        { /* language drop box */}
                         <Box mt={4}>
                             <FormControl fullWidth>
                                 <InputLabel id="language-select">Language</InputLabel>

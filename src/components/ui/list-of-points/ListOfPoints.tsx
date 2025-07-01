@@ -88,13 +88,12 @@ const ListOfPoints = () => {
     <Box sx={{
       overflow: "auto"
     }}>
-      { /* point list */}
       <Card sx={{ padding: "1px" }}>
         <Paper>
           <List sx={{ padding: "0px" }}>
             {points.map((point) => (
               <ListItem key={point.place_id} sx={{
-                padding: '0'
+                padding: '0px'
               }} divider>
                 <PointItem
                   point={point}
