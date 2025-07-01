@@ -1,12 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
+// components
+import App from './App.tsx'
 // material
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 // utils
 import { gray_light } from './utils/colors.ts'
+// redux
+import { Provider } from 'react-redux'
+import { setupStore } from './store/store.ts'
 
 const theme = createTheme({
   palette: {
@@ -26,12 +30,16 @@ const theme = createTheme({
   }
 })
 
+const store = setupStore()
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </ThemeProvider>
     </BrowserRouter>
   </StrictMode>,

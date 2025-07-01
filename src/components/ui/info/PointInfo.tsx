@@ -11,7 +11,7 @@ const PointInfo: FC<Props> = ({ point }) => {
         <Box sx={{
             maxWidth: "200px",
         }}>
-            <Typography variant="h4">{point.name}, {point.addresstype}</Typography>
+            <Typography variant="h6">{point.name}, {point.addresstype}</Typography>
             <Typography>Lat {point.lat}</Typography>
             <Typography>Lon {point.lon}</Typography>
         </Box>

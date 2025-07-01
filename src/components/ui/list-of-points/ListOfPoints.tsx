@@ -1,108 +1,77 @@
-import { Box, Card, List, ListItem, Paper } from '@mui/material';
-import PointItem from './PointItem';
 import { useState } from 'react';
-import type { Point } from '../../../models/Point';
-
-// DEV: test data !!!
-const points: Point[] = [
-  {
-    place_id: "1",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "2",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "3",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "4",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "5",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "6",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "7",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "8",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "9",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "10",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-]
+// components
+import PointItem from './PointItem';
+// redux 
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+// material 
+import { Box, Card, CircularProgress, List, ListItem, Paper, Typography } from '@mui/material';
+import { pointsSlice } from '../../../store/reducers/PointsSlice';
 
 const ListOfPoints = () => {
-  const [activePoint, setActivePoint] = useState('')
+  const [activePoint, setActivePoint] = useState<number | null>(null)
+  // redux variables
+  const { points, isLoading, error } = useAppSelector(store => store.pointsReducer)
+  const dispatch = useAppDispatch()
+  const { setCurrentPoint } = pointsSlice.actions
 
-  const onPointClick = (place_id: string) => {
+  const onPointClick = (place_id: number) => {
     setActivePoint(place_id)
+    // set current point 
+    const selectedPoint = points.find(point => point.place_id === place_id)
+    if (selectedPoint) {
+      dispatch((setCurrentPoint(selectedPoint)))
+    }
   }
 
   return (
     <Box sx={{
       overflow: "auto"
     }}>
-      <Card sx={{ padding: "1px" }}>
-        <Paper>
-          <List sx={{ padding: "0px" }}>
-            {points.map((point) => (
-              <ListItem key={point.place_id} sx={{
-                padding: '0px'
-              }} divider>
-                <PointItem
-                  point={point}
-                  isActive={activePoint === point.place_id}
-                  onClick={onPointClick} />
-              </ListItem>
-            ))}
-          </List>
-        </Paper>
+      <Card
+        variant='outlined'
+        sx={{
+          padding: "1px",
+          height: "100%",
+          overflow: "auto"
+        }}>
+        {isLoading ?
+          <Box sx={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}>
+            <CircularProgress />
+          </Box>
+          :
+          <Paper>
+            <List sx={{ padding: "0px" }}>
+              {points.map((point) => (
+                <ListItem key={point.place_id} sx={{
+                  padding: '0px'
+                }} divider>
+                  <PointItem
+                    point={point}
+                    isActive={activePoint === point.place_id}
+                    onClick={onPointClick} />
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        }
+        {
+          points.length === 0 &&
+          <Box sx={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}>
+            <Typography sx={{ fontSize: '24px' }}>No results 😭</Typography>
+          </Box>
+        }
       </Card>
     </Box>
   )

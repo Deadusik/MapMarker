@@ -1,27 +1,48 @@
+import { useEffect, useRef, useState } from "react"
 // components
 import { APIProvider, InfoWindow, Map as MapComponent, Marker } from "@vis.gl/react-google-maps"
 import ListOfPoints from "../components/ui/list-of-points/ListOfPoints"
-// uitls
-import { useState } from "react"
-import { Backdrop, Box, CircularProgress, Paper } from "@mui/material"
 import PointInfo from "../components/ui/info/PointInfo"
 // material
+import { Backdrop, Box, CircularProgress, Paper } from "@mui/material"
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+// redux
+import { useAppDispatch, useAppSelector } from "../hooks/redux"
+import { fetchPoints } from "../store/reducers/PointsActionCreators"
 
-// DEV: test data !!!
-const test_point = {
-    place_id: "4",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
+interface Coordinates {
+    lat: number
+    lng: number
 }
 
 const Map = () => {
+    // states
     const [isMapLoaded, setIsMapLoaded] = useState(false)
     const [isMarkerActive, setIsMarkerActive] = useState(false)
+    const [currentCenter, setCurrentCenter] = useState<Coordinates | null>({ lat: 0, lng: 0 })
+    // redux vaiables
+    const { selectedPoint } = useAppSelector(state => state.pointsReducer)
+    const dispatch = useAppDispatch()
+    // ref
+    const searchInputRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        if (selectedPoint) {
+            setCurrentCenter({
+                lat: parseFloat(selectedPoint.lat),
+                lng: parseFloat(selectedPoint.lon)
+            })
+        }
+
+        // prevent auto centering
+        const releaseCenterTimeout = setTimeout(() => {
+            setCurrentCenter(null)
+        }, 0)
+
+        return () => clearTimeout(releaseCenterTimeout)
+    }, [selectedPoint])
 
     const onMarkerClick = () => {
         setIsMarkerActive(true)
@@ -29,6 +50,15 @@ const Map = () => {
 
     const onMarkerCloseClick = () => {
         setIsMarkerActive(false)
+    }
+
+    const onSearchPlaceClick = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+
+        if (searchInputRef.current) {
+            const placeName = searchInputRef.current.value
+            dispatch(fetchPoints(placeName))
+        }
     }
 
     return (
@@ -49,13 +79,26 @@ const Map = () => {
                 position for list box */
                 gridRow: { xs: "2", md: "1" },
             }}>
-                <Paper component="form"
-                    sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: "100%" }}>
+                <Paper
+                    component="form"
+                    // allow enter input
+                    onSubmit={onSearchPlaceClick}
+                    sx={{
+                        p: '2px 4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: "100%",
+                        border: "1px solid rgba(0, 0, 0, 0.1)"
+                    }}>
                     <InputBase
+                        inputRef={searchInputRef}
                         sx={{ ml: 1, flex: 1 }}
                         placeholder="Search Google Maps"
                         inputProps={{ 'aria-label': 'search google maps' }} />
-                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                    <IconButton
+                        onClick={onSearchPlaceClick}
+                        type="button" sx={{ p: '10px' }}
+                        aria-label="search">
                         <SearchIcon />
                     </IconButton>
                 </Paper>
@@ -65,23 +108,30 @@ const Map = () => {
             <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
                 <MapComponent
                     style={{ width: "100%", height: "100%" }}
-                    defaultCenter={{ lat: 22.54992, lng: 0 }}
+                    center={currentCenter}
+                    defaultCenter={{ lat: 50.4501, lng: 30.5234 }}
                     defaultZoom={3}
                     gestureHandling={"greedy"}
                     disableDefaultUI={true}
-                    onIdle={() => {
-                        setIsMapLoaded(true)
-                    }} />
-                {/* map marker */}
-                <Marker
-                    position={{ lat: 22.54992, lng: 0 }}
-                    onClick={onMarkerClick} />
+                    onIdle={() => setIsMapLoaded(true)} />
+                {/* map marker */
+                    selectedPoint &&
+                    <Marker
+                        position={{
+                            lat: parseFloat(selectedPoint.lat),
+                            lng: parseFloat(selectedPoint.lon)
+                        }}
+                        onClick={onMarkerClick} />
+                }
                 {/* marker modal window */
-                    isMarkerActive &&
+                    isMarkerActive && selectedPoint &&
                     <InfoWindow
                         onCloseClick={onMarkerCloseClick}
-                        position={{ lat: 22.54992, lng: 0 }}>
-                        <PointInfo point={test_point} />
+                        position={{
+                            lat: parseFloat(selectedPoint.lat),
+                            lng: parseFloat(selectedPoint.lon)
+                        }}>
+                        <PointInfo point={selectedPoint} />
                     </InfoWindow>
                 }
             </APIProvider>

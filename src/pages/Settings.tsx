@@ -2,17 +2,38 @@ import { Box, Button, Card, CardContent, Divider, FormControl, InputLabel, MenuI
 import type { SelectChangeEvent } from "@mui/material"
 import { useState } from "react"
 import { SCREEN_SIZES } from "../utils/constants"
+import { useAppDispatch } from "../hooks/redux"
+import { settingsSlice } from "../store/reducers/SettingsSlice"
+import { isValidCountryCode, isValidTheme } from "../utils/types"
 
 const Settings = () => {
     const [theme, setTheme] = useState("default")
     const [language, setLanguage] = useState("en")
+    // redux vars
+    const dispatch = useAppDispatch()
+    const {
+        setLanguage: setLanguageAction,
+        setTheme: setThemeAction
+    } = settingsSlice.actions
 
     const themeChangeHandler = (event: SelectChangeEvent) => {
-        setTheme(event.target.value)
+        const selectedTheme = event.target.value
+
+        setTheme(selectedTheme)
+
+        if (isValidTheme(selectedTheme)) {
+            dispatch(setThemeAction(selectedTheme))
+        }
     }
 
     const languageChangeHandler = (event: SelectChangeEvent) => {
-        setLanguage(event.target.value)
+        const selectedLanguage = event.target.value
+
+        setLanguage(selectedLanguage)
+
+        if (isValidCountryCode(selectedLanguage)) {
+            dispatch(setLanguageAction(selectedLanguage))
+        }
     }
 
     return (
