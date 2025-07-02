@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom"
 import { publicRoutes } from './routes'
-import Error from "../pages/Error"
+import Error from "@/pages/Error"
 
 const AppRouter = () => {
     return (
@@ -8,13 +8,13 @@ const AppRouter = () => {
             <Routes>
                 {
                     publicRoutes.map(route => (
-                        <Route 
+                        <Route
                             key={route.path}
                             path={route.path}
-                            element={route.element}/>
+                            element={route.element} />
                     ))
                 }
-                <Route path="*" element={<Error/>}/>
+                <Route path="*" element={<Error />} />
             </Routes>
         </>
     )

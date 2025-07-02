@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { Point } from "../../models/Point";
+import type { Point } from "@/models/Point";
 
 export interface PointsState {
     points: Point[]
@@ -27,9 +27,10 @@ export const pointsSlice = createSlice({
             state.points = action.payload
             state.error = ''
         },
-        paintsFetchingError(state, action: PayloadAction<string>) {
+        pointsFetchingError(state, action: PayloadAction<string>) {
             state.isLoading = false
             state.error = action.payload
+            state.points = []
         },
         setCurrentPoint(state, action: PayloadAction<Point>) {
             state.selectedPoint = action.payload

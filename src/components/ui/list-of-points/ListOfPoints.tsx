@@ -1,22 +1,30 @@
 import { useState } from 'react';
-// components
-import PointItem from './PointItem';
 // redux 
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-// material 
-import { Box, Card, CircularProgress, List, ListItem, Paper, Typography } from '@mui/material';
-import { pointsSlice } from '../../../store/reducers/PointsSlice';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { pointsSlice } from '@/store/reducers/PointsSlice';
+// components
+import { PointItem } from '@/components';
+import { CircularProgress, Paper } from '@mui/material';
+// styled 
+import {
+  ErrorText, InfoText,
+  ItemContainer, PointList,
+  PointListCard, PointListContainer,
+  PointListItem
+} from '@/styled/components/ui/list-of-points/styledListOfPoints';
 
 const ListOfPoints = () => {
+  // states
   const [activePoint, setActivePoint] = useState<number | null>(null)
   // redux variables
   const { points, isLoading, error } = useAppSelector(store => store.pointsReducer)
   const dispatch = useAppDispatch()
   const { setCurrentPoint } = pointsSlice.actions
 
+  // handlers
   const onPointClick = (place_id: number) => {
     setActivePoint(place_id)
-    // set current point 
+
     const selectedPoint = points.find(point => point.place_id === place_id)
     if (selectedPoint) {
       dispatch((setCurrentPoint(selectedPoint)))
@@ -24,56 +32,38 @@ const ListOfPoints = () => {
   }
 
   return (
-    <Box sx={{
-      overflow: "auto"
-    }}>
-      <Card
-        variant='outlined'
-        sx={{
-          padding: "1px",
-          height: "100%",
-          overflow: "auto"
-        }}>
+    <PointListContainer>
+      <PointListCard variant='outlined'>
         {isLoading ?
-          <Box sx={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }}>
+          <ItemContainer>
             <CircularProgress />
-          </Box>
+          </ItemContainer>
           :
           <Paper>
-            <List sx={{ padding: "0px" }}>
+            <PointList>
               {points.map((point) => (
-                <ListItem key={point.place_id} sx={{
-                  padding: '0px'
-                }} divider>
-                  <PointItem
-                    point={point}
+                <PointListItem key={point.place_id} divider>
+                  <PointItem point={point}
                     isActive={activePoint === point.place_id}
                     onClick={onPointClick} />
-                </ListItem>
+                </PointListItem>
               ))}
-            </List>
+            </PointList>
           </Paper>
         }
-        {
-          points.length === 0 &&
-          <Box sx={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }}>
-            <Typography sx={{ fontSize: '24px' }}>No results 😭</Typography>
-          </Box>
+        { // inform if list is empty
+          points.length === 0 && !isLoading && !error &&
+          <ItemContainer>
+            <InfoText>No results 😭</InfoText>
+          </ItemContainer>
         }
-      </Card>
-    </Box>
+        {error &&
+          <ItemContainer>
+            <ErrorText>Error: {error}</ErrorText>
+          </ItemContainer>
+        }
+      </PointListCard>
+    </PointListContainer>
   )
 }
 

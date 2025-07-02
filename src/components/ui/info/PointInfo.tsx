@@ -1,6 +1,9 @@
-import { Box, Typography } from "@mui/material"
-import type { Point } from "../../../models/Point"
 import type { FC } from "react"
+// models
+import type { Point } from "@/models/Point"
+// components
+import { Typography } from "@mui/material"
+import { InfoContainer } from "@/styled/components/ui/info/styledPointInfo"
 
 interface Props {
     point: Point
@@ -8,13 +11,11 @@ interface Props {
 
 const PointInfo: FC<Props> = ({ point }) => {
     return (
-        <Box sx={{
-            maxWidth: "200px",
-        }}>
+        <InfoContainer>
             <Typography variant="h6">{point.name}, {point.addresstype}</Typography>
             <Typography>Lat {point.lat}</Typography>
             <Typography>Lon {point.lon}</Typography>
-        </Box>
+        </InfoContainer>
     )
 }
 

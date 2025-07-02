@@ -7,7 +7,8 @@ import App from './App.tsx'
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 // utils
-import { gray_light } from './utils/colors.ts'
+import { gray_light, white } from './utils/colors.ts'
+import { SCREEN_SIZES } from './utils/constants.ts'
 // redux
 import { Provider } from 'react-redux'
 import { setupStore } from './store/store.ts'
@@ -16,16 +17,16 @@ const theme = createTheme({
   palette: {
     secondary: {
       main: gray_light,
-      light: '#fff'
+      light: white
     },
   },
   breakpoints: {
     values: {
-      xs: 0,
-      sm: 600,
-      md: 768,
-      lg: 1200,
-      xl: 1536,
+      xs: SCREEN_SIZES.xs,
+      sm: SCREEN_SIZES.sm,
+      md: SCREEN_SIZES.md,
+      lg: SCREEN_SIZES.lg,
+      xl: SCREEN_SIZES.xl,
     }
   }
 })

@@ -1,15 +1,13 @@
-import { Box, Typography } from "@mui/material"
+// material
+import { Typography } from "@mui/material"
+// styled 
+import { ErrorContainer } from "@/styled/pages/styledError"
 
 const Error = () => {
     return (
-        <Box sx={{
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center"
-        }}>
+        <ErrorContainer>
             <Typography variant="h2">Ooops... Something went wrong</Typography>
-        </Box>
+        </ErrorContainer>
     )
 }
 

@@ -1,115 +1,94 @@
-import { Box, Button, Card, CardContent, Divider, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material"
-import type { SelectChangeEvent } from "@mui/material"
+// base 
 import { useState } from "react"
-import { SCREEN_SIZES } from "../utils/constants"
-import { useAppDispatch } from "../hooks/redux"
-import { settingsSlice } from "../store/reducers/SettingsSlice"
-import { isValidCountryCode, isValidTheme } from "../utils/types"
+// types
+import type { SelectChangeEvent } from "@mui/material"
+// redux
+import { useAppDispatch } from "@/hooks/redux"
+import { settingsSlice } from "@/store/reducers/SettingsSlice"
+//utils
+import { isValidCountryCode, isValidTheme } from "@/utils/types"
+// material
+import { Box, CardContent, FormControl, InputLabel, MenuItem, Typography } from "@mui/material"
+// styled
+import {
+    ApplyButton, ButtonContainer,
+    SettingsCard, SettingsContainer,
+    SettingsContent, SettingsDivider,
+    SettingsSelect
+} from "@/styled/pages/styledSettings"
 
 const Settings = () => {
+    // states
     const [theme, setTheme] = useState("default")
     const [language, setLanguage] = useState("en")
-    // redux vars
+    // redux variables
     const dispatch = useAppDispatch()
     const {
         setLanguage: setLanguageAction,
         setTheme: setThemeAction
     } = settingsSlice.actions
 
-    const themeChangeHandler = (event: SelectChangeEvent) => {
-        const selectedTheme = event.target.value
-
-        setTheme(selectedTheme)
+    // handlers
+    const onThemeChange = (event: SelectChangeEvent<unknown>) => {
+        const selectedTheme = event.target.value as string
 
         if (isValidTheme(selectedTheme)) {
+            setTheme(selectedTheme)
             dispatch(setThemeAction(selectedTheme))
         }
     }
 
-    const languageChangeHandler = (event: SelectChangeEvent) => {
-        const selectedLanguage = event.target.value
-
-        setLanguage(selectedLanguage)
+    const onLanguageChange = (event: SelectChangeEvent<unknown>) => {
+        const selectedLanguage = event.target.value as string
 
         if (isValidCountryCode(selectedLanguage)) {
+            setLanguage(selectedLanguage)
             dispatch(setLanguageAction(selectedLanguage))
         }
     }
 
     return (
-        <Box sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            height: "100%"
-        }}>
-            <Box sx={{
-                maxWidth: SCREEN_SIZES.sm600,
-                width: "100%"
-            }}>
-                <Card sx={{
-                    backgroundColor: "secondary.main"
-                }}>
+        <SettingsContainer>
+            <SettingsContent>
+                <SettingsCard>
                     <CardContent>
-                        <Typography variant="h4" gutterBottom>
-                            Settings
-                        </Typography>
-                        { /* theme drop box */}
+                        <Typography variant="h4" gutterBottom>Settings</Typography>
+                        { /* theme select */}
                         <Box>
                             <FormControl fullWidth>
                                 <InputLabel id="theme-select">Theme</InputLabel>
-                                <Select
-                                    sx={{
-                                        backgroundColor: "secondary.light"
-                                    }}
+                                <SettingsSelect
                                     labelId="theme-select"
                                     id="theme-select"
                                     value={theme}
                                     label="Theme"
-                                    onChange={themeChangeHandler}>
+                                    onChange={onThemeChange}>
                                     <MenuItem value={"default"}>Default</MenuItem>
                                     <MenuItem value={"dark"}>Dark</MenuItem>
-                                </Select>
+                                </SettingsSelect>
                             </FormControl>
                         </Box>
-                        { /* language drop box */}
+                        { /* language select */}
                         <Box mt={4}>
                             <FormControl fullWidth>
                                 <InputLabel id="language-select">Language</InputLabel>
-                                <Select
-                                    sx={{
-                                        backgroundColor: "secondary.light"
-                                    }}
-                                    labelId="language-select"
-                                    id="language-select"
-                                    value={language}
-                                    label="Language"
-                                    onChange={e => languageChangeHandler(e)}>
+                                <SettingsSelect labelId="language-select" id="language-select"
+                                    value={language} label="Language"
+                                    onChange={onLanguageChange}>
                                     <MenuItem value={"en"}>English</MenuItem>
                                     <MenuItem value={"ua"}>Ukranian</MenuItem>
-                                </Select>
+                                </SettingsSelect>
                             </FormControl>
                         </Box>
-                        <Divider sx={{ margin: "20px" }} />
-                        <Box sx={{
-                            width: "100%",
-                            display: "flex"
-                        }}>
-                            <Button
-                                variant="contained"
-                                sx={{
-                                    height: "45px",
-                                    width: "120px",
-                                }}>
-                                Apply
-                            </Button>
-                        </Box>
+                        <SettingsDivider />
+                        {/* apply button */}
+                        <ButtonContainer>
+                            <ApplyButton variant="contained">Apply</ApplyButton>
+                        </ButtonContainer>
                     </CardContent>
-                </Card>
-            </Box>
-        </Box>
+                </SettingsCard>
+            </SettingsContent>
+        </SettingsContainer>
     )
 }
 

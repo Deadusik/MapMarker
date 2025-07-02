@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { CountryCode, Theme } from "../../utils/types";
+import type { CountryCode, Theme } from "@/utils/types";
 
 export interface SettingsState {
     theme: Theme

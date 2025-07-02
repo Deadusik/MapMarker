@@ -1,6 +1,10 @@
-import { Box, Button, Typography } from "@mui/material"
 import type { FC } from "react"
-import type { Point } from "../../../models/Point"
+// material
+import { Box } from "@mui/material"
+// models
+import type { Point } from "@/models/Point"
+// styled
+import { PointItemButton, PointItemText, PointItemTitle } from "@/styled/components/ui/list-of-points/styledPointItem"
 
 interface Props {
     isActive: boolean
@@ -8,21 +12,19 @@ interface Props {
     onClick: (id: number) => void
 }
 
-const PointItem: FC<Props> = ({ isActive, point, onClick }) => {
+const PointItem: FC<Props> = ({ point, isActive, onClick }) => {
     const buttonVariant = isActive ? "contained" : "text"
 
     return (
-        <Button sx={{ width: "100%" }}
+        <PointItemButton
             variant={buttonVariant}
             onClick={() => onClick(point.place_id)}>
             <Box>
-                <Typography sx={{ fontSize: { xs: "12px", md: "18px" } }}>
-                    {point.name}, {point.addresstype}
-                </Typography>
-                <Typography sx={{ fontSize: { xs: "12px", md: "18px" } }}>Lat {point.lat}</Typography>
-                <Typography sx={{ fontSize: { xs: "12px", md: "18px" } }}>Lon {point.lon}</Typography>
+                <PointItemTitle>{point.name}, {point.addresstype}</PointItemTitle>
+                <PointItemText>Lat {point.lat}</PointItemText>
+                <PointItemText>Lon {point.lon}</PointItemText>
             </Box>
-        </Button>
+        </PointItemButton>
     )
 }
 
