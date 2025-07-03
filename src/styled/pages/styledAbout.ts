@@ -1,5 +1,5 @@
 import { SCREEN_SIZES } from "@/utils/constants";
-import { Box, Button, Card, styled, TextField, type BoxProps } from "@mui/material";
+import { Box, Button, Card, Paper, styled, TextField, type PaperProps } from "@mui/material";
 
 export const AboutContainer = styled(Box)({
     display: "flex",
@@ -19,14 +19,23 @@ export const ContactUsCard = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.main,
 }))
 
-export const ContactUsFormContainer = styled(Box)<BoxProps>({
+export const ContactUsFormContainer = styled(Paper)<PaperProps<'form'>>(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     gap: "10px",
-})
+    marginTop: "10px",
+    backgroundColor: theme.palette.secondary.main
+}))
 
 export const ContactUsField = styled(TextField)(({ theme }) => ({
-    backgroundColor: theme.palette.secondary.light,
+    // mui input colors adjustment to 
+    // show correct colors around error text
+    '& .MuiOutlinedInput-root': {
+        backgroundColor: theme.palette.secondary.light,
+    },
+    '& .MuiOutlinedInput-root.Mui-error': {
+        backgroundColor: theme.palette.secondary.main,
+    },
 }))
 
 export const SubmitButton = styled(Button)({

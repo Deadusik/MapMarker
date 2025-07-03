@@ -12,8 +12,11 @@ import {
   PointListCard, PointListContainer,
   PointListItem
 } from '@/styled/components/ui/list-of-points/styledListOfPoints';
+import { useTranslation } from 'react-i18next';
+import { POINT_LIST } from '@/utils/translation';
 
 const ListOfPoints = () => {
+  const { t } = useTranslation()
   // states
   const [activePoint, setActivePoint] = useState<number | null>(null)
   // redux variables
@@ -54,12 +57,12 @@ const ListOfPoints = () => {
         { // inform if list is empty
           points.length === 0 && !isLoading && !error &&
           <ItemContainer>
-            <InfoText>No results 😭</InfoText>
+            <InfoText>{t(POINT_LIST.noResults)}</InfoText>
           </ItemContainer>
         }
         {error &&
           <ItemContainer>
-            <ErrorText>Error: {error}</ErrorText>
+            <ErrorText>{t(POINT_LIST.error)} {error}</ErrorText>
           </ItemContainer>
         }
       </PointListCard>

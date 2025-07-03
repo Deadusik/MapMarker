@@ -29,10 +29,12 @@ export const ItemContainer = styled(Box)({
 export const InfoText = styled(Typography)({
     fontSize: '24px',
     textAlign: "center",
+    padding: "0 10px",
 })
 
 export const ErrorText = styled(Typography)({
     fontSize: '24px',
     color: "tomato",
     textAlign: "center",
+    padding: "0 10px",
 })

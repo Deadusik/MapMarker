@@ -1,9 +1,8 @@
 import type { FC } from "react"
 // models
 import type { Point } from "@/models/Point"
-// components
-import { Typography } from "@mui/material"
-import { InfoContainer } from "@/styled/components/ui/info/styledPointInfo"
+// styled
+import { InfoContainer, InfoText } from "@/styled/components/ui/info/styledPointInfo"
 
 interface Props {
     point: Point
@@ -12,9 +11,9 @@ interface Props {
 const PointInfo: FC<Props> = ({ point }) => {
     return (
         <InfoContainer>
-            <Typography variant="h6">{point.name}, {point.addresstype}</Typography>
-            <Typography>Lat {point.lat}</Typography>
-            <Typography>Lon {point.lon}</Typography>
+            <InfoText variant="h6">{point.name}, {point.addresstype}</InfoText>
+            <InfoText>Lat {point.lat}</InfoText>
+            <InfoText>Lon {point.lon}</InfoText>
         </InfoContainer>
     )
 }

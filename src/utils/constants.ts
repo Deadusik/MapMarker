@@ -9,3 +9,8 @@ export const SCREEN_SIZES = {
 };
 
 export const DEFAULT_CENTER: Coordinates = { lat: 50.4501, lng: 30.5234 }
+
+export const LOCAL_STORAGE_KEYS = {
+  language: "language",
+  theme: "theme"
+}

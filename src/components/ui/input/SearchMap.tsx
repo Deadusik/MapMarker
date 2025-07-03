@@ -1,4 +1,5 @@
 import { type FC } from "react"
+import { useTranslation } from "react-i18next"
 // material
 import SearchIcon from '@mui/icons-material/Search'
 // styled
@@ -10,6 +11,8 @@ interface Props {
 }
 
 const SearchMap: FC<Props> = ({ onChange, onSearchClick }) => {
+    const { t } = useTranslation()
+
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         onChange(e.target.value)
@@ -22,8 +25,8 @@ const SearchMap: FC<Props> = ({ onChange, onSearchClick }) => {
             onSubmit={onSearchClick}>
             <SearchInput
                 onChange={onChangeHandler}
-                placeholder="Search Google Maps"
-                inputProps={{ 'aria-label': 'search google maps' }} />
+                placeholder={t("search-input")}
+                inputProps={{ 'aria-label': t("search-input") }} />
             <SearchMapButton
                 onClick={onSearchClick}
                 type="button"
