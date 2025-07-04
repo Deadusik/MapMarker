@@ -2,10 +2,7 @@ import type { ReactNode } from "react"
 // components
 import { ABOUT, MAP, SETTINGS } from "./paths"
 // paths
-import Map from '../pages/Map'
-import About from '../pages/About'
-import Settings from '../pages/Settings'
-
+import { Map, About, Settings } from "@/pages"
 interface IRoute {
     path: string
     element: ReactNode

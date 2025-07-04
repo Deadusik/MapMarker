@@ -1,110 +1,72 @@
-import { Box, Card, List, ListItem, Paper } from '@mui/material';
-import PointItem from './PointItem';
 import { useState } from 'react';
-import type { Point } from '../../../models/Point';
-
-// DEV: test data !!!
-const points: Point[] = [
-  {
-    place_id: "1",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "2",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "3",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "4",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "5",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "6",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "7",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "8",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "9",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-  {
-    place_id: "10",
-    name: "Kyiv",
-    addresstype: "City",
-    lat: "50.4500336",
-    lon: "30.5241361"
-  },
-]
+// redux 
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { pointsSlice } from '@/store/reducers/PointsSlice';
+// components
+import { PointItem } from '@/components';
+import { CircularProgress, Paper } from '@mui/material';
+// styled 
+import {
+  ErrorText, InfoText,
+  ItemContainer, PointList,
+  PointListCard, PointListContainer,
+  PointListItem
+} from '@/styled/components/ui/list-of-points/styledListOfPoints';
+import { useTranslation } from 'react-i18next';
+import { POINT_LIST } from '@/utils/translation';
 
 const ListOfPoints = () => {
-  const [activePoint, setActivePoint] = useState('')
+  const { t } = useTranslation()
+  // states
+  const [activePoint, setActivePoint] = useState<number | null>(null)
+  // redux variables
+  const { points, isLoading, error } = useAppSelector(store => store.pointsReducer)
+  const dispatch = useAppDispatch()
+  const { setCurrentPoint } = pointsSlice.actions
 
-  const onPointClick = (place_id: string) => {
+  // handlers
+  const onPointClick = (place_id: number) => {
     setActivePoint(place_id)
+
+    const selectedPoint = points.find(point => point.place_id === place_id)
+    if (selectedPoint) {
+      dispatch((setCurrentPoint(selectedPoint)))
+    }
   }
 
   return (
-    <Box sx={{
-      overflow: "auto"
-    }}>
-      <Card sx={{ padding: "1px" }}>
-        <Paper>
-          <List sx={{ padding: "0px" }}>
-            {points.map((point) => (
-              <ListItem key={point.place_id} sx={{
-                padding: '0px'
-              }} divider>
-                <PointItem
-                  point={point}
-                  isActive={activePoint === point.place_id}
-                  onClick={onPointClick} />
-              </ListItem>
-            ))}
-          </List>
-        </Paper>
-      </Card>
-    </Box>
+    <PointListContainer>
+      <PointListCard variant='outlined'>
+        {isLoading ?
+          <ItemContainer>
+            <CircularProgress />
+          </ItemContainer>
+          :
+          <Paper>
+            <PointList>
+              {points.map((point) => (
+                <PointListItem key={point.place_id} divider>
+                  <PointItem point={point}
+                    isActive={activePoint === point.place_id}
+                    onClick={onPointClick} />
+                </PointListItem>
+              ))}
+            </PointList>
+          </Paper>
+        }
+        { // inform if list is empty
+          points.length === 0 && !isLoading && !error &&
+          <ItemContainer>
+            <InfoText>{t(POINT_LIST.noResults)}</InfoText>
+          </ItemContainer>
+        }
+        {error &&
+          <ItemContainer>
+            <ErrorText>{t(POINT_LIST.error)} {error}</ErrorText>
+          </ItemContainer>
+        }
+      </PointListCard>
+    </PointListContainer>
   )
 }
 

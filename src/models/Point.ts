@@ -1,5 +1,5 @@
 export interface Point {
-    place_id: string
+    place_id: number
     name: string
     addresstype: string
     lat: string
