@@ -1,5 +1,5 @@
 // base 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
 // types
 import type { SelectChangeEvent } from "@mui/material"
