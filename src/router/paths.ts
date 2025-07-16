@@ -1,3 +1,5 @@
-export const MAP = '/'
-export const ABOUT = '/about'
-export const SETTINGS = '/settings'
+const baseUrl = import.meta.env.BASE_URL
+
+export const MAP = baseUrl
+export const ABOUT = `${baseUrl}about`
+export const SETTINGS = `${baseUrl}settings`
