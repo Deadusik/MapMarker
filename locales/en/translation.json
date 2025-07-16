@@ -1,0 +1,60 @@
+{
+    "settings": {
+        "title": "Settings",
+        "theme-select": {
+            "hint": "Theme",
+            "default": "Default",
+            "dark": "Dark"
+        },
+        "language-select": {
+            "hint": "Language",
+            "ua": "Ukranian",
+            "en": "English"
+        },
+        "button": "Apply"
+    },
+    "navbar": {
+        "about": "About",
+        "map": "Map",
+        "settings": "Settings"
+    },
+    "about": {
+        "title": "About Us",
+        "p1": "Our project is designed to make information easily accessible on a map. We display important points — from venues to events — so you can quickly find what you’re looking for nearby.",
+        "p2": "With an interactive map and constantly updated data, we strive to provide convenience, accuracy, and fast access to the information you need. We welcome collaboration, new ideas, and your feedback.",
+        "contact-us": {
+            "title": "Contact Us",
+            "info": "If you have suggestions, questions, or want to add a new point on the map — feel free to reach out!",
+            "button": "Send",
+            "form": {
+                "user-name": "Your Name",
+                "user-email": "Email",
+                "user-message": "Message"
+            }
+        }
+    },
+    "search-input": "Search places",
+    "list-of-points": {
+        "no-results-info": "No results 😭",
+        "error": "Error:"
+    },
+    "validation": {
+        "contact-us": {
+            "name": {
+                "min": "Name must be at least 3 characters",
+                "required": "Name is a required field"
+            },
+            "email": {
+                "invalid": "Email is not valid",
+                "required": "Email is a required field"
+            },
+            "message": {
+                "min": "Message must be at least 10 characters",
+                "required": "Message is a required field"
+            },
+            "alert": {
+                "success": "Email was sent successfully"
+            }
+        }
+    }
+}
